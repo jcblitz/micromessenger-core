@@ -9,11 +9,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/micromessenger-core-context.xml
 			/WEB-INF/micromessenger-core-servlet.xml
-			/WEB-INF/micromessenger-core-persistence.xml
-			/WEB-INF/micromessenger-core-security.xml
-			/WEB-INF/micromessenger-core-service.xml
 		</param-value>
 	</context-param>
 

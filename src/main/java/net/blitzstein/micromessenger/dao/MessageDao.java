@@ -3,6 +3,8 @@ package net.blitzstein.micromessenger.dao;
 import net.blitzstein.micromessenger.domain.Message;
 
 public interface MessageDao {
-	public boolean save(Message message);
+	public Message save(Message message);
+	public boolean delete(Integer messageId);
+	
 
 }

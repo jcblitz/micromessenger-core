@@ -12,12 +12,16 @@ public class SimpleMessageServiceImpl implements MessageService {
 	private MessageDao messageDao;
 	Log logger = LogFactory.getLog(getClass());
 
-	public boolean post(Message message) {
+	public Message post(Message message) {
 		return messageDao.save(message);
 	}
 
 	public void setMessageDao(MessageDao messageDao) {
 		this.messageDao = messageDao;
+	}
+
+	public boolean delete(Integer messageId) {
+		return messageDao.delete(messageId);
 	}
 
 }

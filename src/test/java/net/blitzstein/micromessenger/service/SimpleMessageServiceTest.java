@@ -3,16 +3,9 @@ package net.blitzstein.micromessenger.service;
 import static org.easymock.EasyMock.replay;
 import net.blitzstein.micromessenger.dao.MessageDao;
 import net.blitzstein.micromessenger.domain.Message;
-import net.blitzstein.micromessenger.domain.SimpleMessage;
 
-import org.easymock.EasyMock;
-import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -23,27 +16,34 @@ import static org.junit.Assert.*;
 public class SimpleMessageServiceTest extends AbstractJUnit4SpringContextTests {
 
 	private SimpleMessageServiceImpl messageService;
-	IMocksControl mockCreator;
 	MessageDao messageDao;
 
 	Message messageMock;
 
 	@Test
 	public void postMessageTest() {
-		// Message simpleMessage = new SimpleMessage();
-
 		expect(messageMock.getText()).andReturn("Hello World").anyTimes();
 		expect(messageMock.getId()).andReturn(1).anyTimes();
 
-		expect(messageDao.save(messageMock)).andReturn(true).anyTimes();
+		expect(messageDao.save(messageMock)).andReturn(messageMock).anyTimes();
 		replay(messageDao);
 		replay(messageMock);
 
-		boolean posted = messageService.post(messageMock);
-		assertTrue("Message was not posted succesfully", posted);
-		assertEquals("Hello World", messageMock.getText());
-		assertEquals(new Integer(1), messageMock.getId());
+		Message returned = messageService.post(messageMock);
+		assertEquals("Hello World", returned.getText());
+		assertEquals(new Integer(1), returned.getId());
 	}
+	
+	@Test
+	public void deleteMessageTest() {
+		Integer callingMessageId = new Integer(1);
+		expect(messageDao.delete(callingMessageId)).andReturn(true).anyTimes();
+		replay(messageDao);
+
+		boolean isDeleted = messageService.delete(callingMessageId);
+		assertEquals("Message was not deleted", true, isDeleted);
+	}
+
 
 	@Before
 	public void setUp() {
